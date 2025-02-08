@@ -6,10 +6,8 @@ repository: https://github.com/tytydraco/pareidolia
 environment:
   sdk: ^3.6.0
 
-# Add regular dependencies here.
 dependencies:
-  # path: ^1.8.0
+  image: ^4.5.2
 
 dev_dependencies:
   very_good_analysis: any
-  test: ^1.24.0
