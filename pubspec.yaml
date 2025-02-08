@@ -1,0 +1,15 @@
+name: pareidolia
+description: A library to generate random noise images.
+version: 1.0.0
+repository: https://github.com/tytydraco/pareidolia
+
+environment:
+  sdk: ^3.6.0
+
+# Add regular dependencies here.
+dependencies:
+  # path: ^1.8.0
+
+dev_dependencies:
+  very_good_analysis: any
+  test: ^1.24.0
