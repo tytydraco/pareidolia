@@ -32,6 +32,13 @@ Future<void> main(List<String> args) async {
       defaultsTo: '1080',
     )
     ..addOption(
+      'mode',
+      abbr: 'm',
+      help: 'The image mode to use when generating.',
+      defaultsTo: 'color',
+      allowed: ['color', 'grayscale'],
+    )
+    ..addOption(
       'seed',
       abbr: 's',
       help: 'The seed to use.',
@@ -41,6 +48,16 @@ Future<void> main(List<String> args) async {
       abbr: 'f',
       help: 'The filename to save the image under.',
       defaultsTo: 'image.png',
+    )
+    ..addOption(
+      'grayscale-min',
+      help: 'The minimum grayscale value for all color channels [0, 255].',
+      defaultsTo: '0',
+    )
+    ..addOption(
+      'grayscale-max',
+      help: 'The maximum grayscale value for all color channels [0, 255].',
+      defaultsTo: '255',
     )
     ..addOption(
       'red-min',
@@ -78,9 +95,14 @@ Future<void> main(List<String> args) async {
   try {
     final width = int.parse(options['width']! as String);
     final height = int.parse(options['height']! as String);
+    final mode = options['mode']! as String;
     final seed =
         options['seed'] == null ? null : int.parse(options['seed']! as String);
     final filename = options['filename']! as String;
+    final grayscaleMin =
+        int.parse(options['grayscale-min']! as String).clamp(0, 255);
+    final grayscaleMax =
+        int.parse(options['grayscale-max']! as String).clamp(0, 255);
     final redMin = int.parse(options['red-min']! as String).clamp(0, 255);
     final redMax = int.parse(options['red-max']! as String).clamp(0, 255);
     final greenMin = int.parse(options['green-min']! as String).clamp(0, 255);
@@ -89,16 +111,27 @@ Future<void> main(List<String> args) async {
     final blueMax = int.parse(options['blue-max']! as String).clamp(0, 255);
 
     final pareidolia = Pareidolia(seed: seed);
-    final image = pareidolia.generate(
-      width: width,
-      height: height,
-      redMin: redMin,
-      redMax: redMax,
-      greenMin: greenMin,
-      greenMax: greenMax,
-      blueMin: blueMin,
-      blueMax: blueMax,
-    );
+
+    Image image;
+    if (mode == 'color') {
+      image = pareidolia.generate(
+        width: width,
+        height: height,
+        redMin: redMin,
+        redMax: redMax,
+        greenMin: greenMin,
+        greenMax: greenMax,
+        blueMin: blueMin,
+        blueMax: blueMax,
+      );
+    } else {
+      image = pareidolia.generateGrayscale(
+        width: width,
+        height: height,
+        min: grayscaleMin,
+        max: grayscaleMax,
+      );
+    }
 
     final file = File(filename);
     await file.writeAsBytes(encodePng(image));

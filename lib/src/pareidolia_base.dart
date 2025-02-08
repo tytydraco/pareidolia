@@ -20,6 +20,27 @@ class Pareidolia {
   }
 
   /// Generates an image with random color data.
+  Image generateGrayscale({
+    required int width,
+    required int height,
+    int min = 0,
+    int max = 255,
+  }) {
+    final image = Image(width: width, height: height);
+
+    for (final pixel in image) {
+      final value = _randomRange(min, max);
+
+      pixel
+        ..r = value
+        ..g = value
+        ..b = value;
+    }
+
+    return image;
+  }
+
+  /// Generates an image with random color data.
   Image generate({
     required int width,
     required int height,
