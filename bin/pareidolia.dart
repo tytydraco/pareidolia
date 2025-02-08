@@ -80,7 +80,7 @@ Future<void> main(List<String> args) async {
     final height = int.parse(options['height']! as String);
     final seed =
         options['seed'] == null ? null : int.parse(options['seed']! as String);
-    final filename = options['height']! as String;
+    final filename = options['filename']! as String;
     final redMin = int.parse(options['red-min']! as String).clamp(0, 255);
     final redMax = int.parse(options['red-max']! as String).clamp(0, 255);
     final greenMin = int.parse(options['green-min']! as String).clamp(0, 255);
